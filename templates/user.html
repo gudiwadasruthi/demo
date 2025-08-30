@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>User - Drone Demo</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+<header>
+  <h1>🚁 Drone Food Delivery — User</h1>
+</header>
+
+<main>
+  <section class="card" style="grid-column:span 2">
+    <h2>Place Order</h2>
+    <form id="orderForm">
+      <div class="form-row">
+        <label>Name</label>
+        <input id="userName" type="text" placeholder="Your name (e.g., Sruthi)" />
+      </div>
+      <div class="form-row">
+        <label>Vendor</label>
+        <select id="vendorSelect">
+          <option>Pizza Hub</option>
+          <option>Biryani House</option>
+          <option>SubWay</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>Block</label>
+        <select id="blockSelect">
+          <option>Block A</option>
+          <option>Block B</option>
+          <option>Block C</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>Item</label>
+        <input id="itemInput" type="text" placeholder="e.g., Veg Biryani" />
+      </div>
+      <div style="margin-top:.8rem;">
+        <button class="btn" type="submit">Place Order</button>
+      </div>
+      <p id="placeMsg" style="margin-top:.6rem;color:#2366d6;"></p>
+    </form>
+  </section>
+
+  <section class="card">
+    <h2>My Orders</h2>
+    <div id="myOrders" class="order-list"></div>
+  </section>
+</main>
+
+<script src="/static/script.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("orderForm");
+  const myOrdersDiv = document.getElementById("myOrders");
+
+  // Render user's orders with current status
+  function renderOrders() {
+    const orders = JSON.parse(localStorage.getItem("orders") || "[]");
+    myOrdersDiv.innerHTML = "";
+    orders.forEach((o, i) => {
+      const el = document.createElement("div");
+      el.className = "order-item";
+      el.innerHTML = `
+        <strong>${i + 1}. ${o.item}</strong> — ${o.vendor} — ${o.block} 
+        <span style="font-weight:700; color:${statusColor(o.status)}">[${o.status}]</span>
+      `;
+      myOrdersDiv.appendChild(el);
+    });
+  }
+
+  // Color code status
+  function statusColor(s) {
+    if(s==="PLACED") return "#0b63d8";
+    if(s==="ACCEPTED" || s==="COOKING" || s==="READY") return "#ff8a00";
+    if(s==="LAUNCHED" || s==="EN_ROUTE") return "#0066ff";
+    if(s==="DELIVERED") return "#28a745";
+    if(s==="DECLINED" || s==="FAILED") return "#dc3545";
+    return "#333";
+  }
+
+  // Handle placing order
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    const order = {
+      id: Date.now(),
+      user: document.getElementById("userName").value || "Guest",
+      vendor: document.getElementById("vendorSelect").value,
+      block: document.getElementById("blockSelect").value,
+      item: document.getElementById("itemInput").value || "Food Item",
+      status: "PLACED"
+    };
+    const orders = JSON.parse(localStorage.getItem("orders") || "[]");
+    orders.push(order);
+    localStorage.setItem("orders", JSON.stringify(orders));
+    document.getElementById("placeMsg").textContent = `Order placed! ID: ${order.id}`;
+    form.reset();
+    renderOrders();
+  });
+
+  // Poll every second to update status from vendor changes
+  setInterval(renderOrders, 1000);
+
+  renderOrders();
+});
+</script>
+
+</script>
+</body>
+</html>

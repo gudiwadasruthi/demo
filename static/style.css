@@ -1,0 +1,81 @@
+/* Reset + fonts */
+* { margin:0; padding:0; box-sizing:border-box; font-family:"Segoe UI", Arial, sans-serif; }
+body { background:#f5f7fb; color:#222; line-height:1.6; }
+
+/* Header */
+header {
+  background:#004aad; color:#fff; padding:1rem 2rem;
+  display:flex; justify-content:space-between; align-items:center;
+}
+header h1 { font-size:1.2rem; }
+nav a { color:#fff; margin-left:1rem; text-decoration:none; font-weight:500; }
+nav a:hover { text-decoration:underline; }
+
+/* Layout */
+main { max-width:1100px; margin:2rem auto; padding:0 1rem; display:grid; grid-template-columns: repeat(2, 1fr); gap:1.5rem; }
+.card { background:#fff; border-radius:12px; padding:1.2rem; box-shadow:0 6px 18px rgba(5,20,60,0.06); }
+.card h2 { margin-bottom:.8rem; color:#004aad; }
+
+/* Forms */
+.form-row { margin-top:.6rem; display:flex; gap:.6rem; align-items:center; }
+.form-row label { min-width:90px; font-weight:600; color:#333; }
+input[type="text"], select { flex:1; padding:.6rem .8rem; border-radius:8px; border:1px solid #d6dde9; }
+.btn { padding:.6rem 1rem; background:#004aad; color:#fff; border:none; border-radius:8px; cursor:pointer; font-weight:600; transition:.18s; }
+.btn.secondary { background:#28a745; }
+.btn.warn { background:#dc3545; }
+.btn:hover { transform:translateY(-2px); }
+
+/* Order list */
+.order-list { display:flex; flex-direction:column; gap:.8rem; margin-top:.6rem; }
+.order-item { display:flex; justify-content:space-between; align-items:center; padding:.7rem 1rem; border-radius:10px; background:#f6f9ff; border:1px solid #e6eefc; }
+.order-item p { margin:0; font-weight:600; color:#08306f; }
+
+/* Table (admin) */
+.table { width:100%; border-collapse:collapse; margin-top:.6rem; font-size:0.95rem; }
+.table th, .table td { border:1px solid #e9eef9; padding:.6rem; text-align:left; }
+.table th { background:#f0f6ff; color:#004aad; font-weight:700; }
+
+/* Full-width single-column for user (makes layout nicer) */
+@media (max-width:900px) {
+  main { grid-template-columns: 1fr; }
+}
+/* Vendor panel buttons */
+#incoming button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+}
+
+/* Accept button */
+#incoming button[data-action="ACCEPTED"] {
+  background-color: #28a745;
+  color: #fff;
+}
+
+/* Decline button */
+#incoming button[data-action="DECLINED"] {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+/* Ready button */
+#incoming button[data-action="READY"] {
+  background-color: #ff8a00;
+  color: #fff;
+}
+
+/* Launch button */
+#incoming button[data-action="LAUNCHED"] {
+  background-color: #0066ff;
+  color: #fff;
+}
+
+/* Hover effect for all buttons */
+#incoming button:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}

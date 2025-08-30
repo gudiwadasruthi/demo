@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Admin - Drone Demo</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+<header>
+  <h1>🛠️ Admin Dashboard</h1>
+</header>
+
+<main>
+  <section class="card" style="grid-column:span 2">
+    <h2>Live Orders</h2>
+    <ul id="adminOrders" class="order-list"></ul>
+  </section>
+</main>
+
+<script src="/static/script.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", ()=>{
+  const adminOrders = document.getElementById("adminOrders");
+
+  function render(){
+    const orders = JSON.parse(localStorage.getItem("orders")||"[]");
+    adminOrders.innerHTML = "";
+    orders.forEach((o,i)=>{
+      const li = document.createElement("li");
+      li.textContent = `${i+1}. ${o.item} — ${o.vendor} — ${o.block} [${o.status}]`;
+      adminOrders.appendChild(li);
+    });
+  }
+
+  setInterval(render, 1000);
+});
+</script>
+</body>
+</html>
